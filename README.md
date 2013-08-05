@@ -7,14 +7,21 @@ Usage
 ==============
 
 ```go
-func test_handler(conn net.Conn, data []byte) {
-	fmt.Println(data)
+type Client struct {
+	Conn net.Conn
+	Quit chan bool
 }
 
-func main() {
-    // start new tcp pool
-    start_tcp_pool(":8080", 1000, handler)
+func test_handler(conn *Client, data []byte) {
+    // do something with data
+    ....
+    // close connection
+	conn.close()
 }
+
+...
+start_tcp_pool("localhost:8080", 1000, test_handler)
+...
 ```
 
 TODO
